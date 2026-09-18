@@ -1,1 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统化学生物学与药理学实验室 — 南方科技大学</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#FFFFFF',
+                            surface: '#F8FAFC',
+                            border: '#E2E8F0',
+                            navy: '#0F172A',
+                            accent: '#1D4ED8',
+                            glow: '#2563EB',
+                            highlight: '#047857',
+                            purple: '#6D28D9',
+                            amber: '#B45309'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'system-ui', 'sans-serif'],
+                        serif: ['Georgia', 'serif'],
+                        mono: ['monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .serif-text {
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(226, 232, 240, 1);
+        }
+        .glow-effect:hover {
+            box-shadow: 0 10px 30px rgba(29, 78, 216, 0.12);
+            border-color: rgba(29, 78, 216, 0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glow-effect-green:hover {
+            box-shadow: 0 10px 30px rgba(4, 120, 87, 0.12);
+            border-color: rgba(4, 120, 87, 0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        .section-spacing {
+            scroll-margin-top: 5rem;
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-brand-navy">
 
+    <!-- HEADER & NAVIGATION -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-accent to-brand-highlight flex items-center justify-center font-black text-white text-lg">
+                    iO
+                </div>
+                <span class="text-2xl md:text-3xl font-normal tracking-tight text-brand-navy font-sans">
+                    <span class="text-sm font-semibold text-slate-800 uppercase tracking-widest">AN</span>
+                    <span class="text-lg md:text-xl">inter</span><sup class="text-sky-500 italic text-base">n</sup><span class="text-red-700 italic text-2xl md:text-3xl">O</span><span class="text-lg md:text-xl">mics</span>
+                    <span class="text-sm font-semibold text-slate-800 uppercase tracking-widest ml-1">LAB</span>
+                </span>
+            </div>
+            
+            <nav class="hidden lg:flex items-center space-x-2 text-base md:text-lg font-semibold text-slate-800">
+                <a href="#concepts" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">概念</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#shift" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">转型</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#arsenal" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">技术库</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#tinkering-direction" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">新阶段</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#partner" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">合作</a>
+            </nav>
+
+            <a href="#footer" class="bg-brand-accent hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-full transition shadow-lg shadow-blue-500/10">
+                联系我们
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO AREA -->
+    <section class="relative w-full min-h-[60vh] bg-gradient-to-br from-slate-50 via-white to-blue-50/30 border-b border-slate-200 overflow-hidden flex items-center justify-center">
+        <canvas id="metropolisCanvas" class="absolute inset-0 w-full h-full opacity-60"></canvas>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white pointer-events-none"></div>
+
+        <div class="relative max-w-4xl mx-auto px-6 text-center z-10 py-16 space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-emerald-100 border border-blue-200/50 mb-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs md:text-sm font-bold text-brand-accent font-sans tracking-wide uppercase">迈进新阶段</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-brand-navy leading-tight font-sans">
+                用化学工具 <br class="hidden md:block">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent via-blue-500 to-brand-highlight">调控生物系统</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed font-sans font-medium">
+                利用可扩展的天然蛋白质生物物理学、免衍生化化学蛋白质组学以及生物大语言模型，设计精准的邻近诱导化学工具，<strong class="text-brand-navy font-black">重构细胞信号网络</strong>。
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+                <a href="#concepts" class="w-full sm:w-auto text-center bg-brand-navy text-white font-bold px-6 py-3.5 rounded-lg hover:bg-slate-800 transition duration-200 shadow-md text-sm">
+                    了解理念
+                </a>
+                <a href="#arsenal" class="w-full sm:w-auto text-center bg-white text-slate-800 border border-slate-300 hover:border-slate-500 font-bold px-6 py-3.5 rounded-lg transition duration-200 shadow-sm text-sm">
+                    探索技术库
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-6 py-16 space-y-32">
+
+        <!-- 第一幕：概念 -->
+        <section id="concepts" class="section-spacing space-y-12 bg-white border border-slate-200 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-sm">
+            <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-brand-highlight/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">第一幕</span>
+                <span class="h-px flex-1 bg-slate-200"></span>
+            </div>
+
+            <div class="max-w-4xl mx-auto text-center space-y-6">
+                <h2 class="text-3xl md:text-5xl font-black text-brand-navy font-sans">细胞大都市</h2>
+                
+                <p class="text-slate-700 leading-relaxed text-base md:text-xl font-sans font-medium">
+                    想象一个活细胞不是混乱的随机化学反应试管，而是一个<strong class="text-brand-navy font-extrabold">繁忙而高度组织化的大都市</strong>。单个生物分子——包括蛋白质、代谢物、肽和脂质——是行走在街道上的多样化<strong class="text-brand-navy font-extrabold">"市民"</strong>，每个人都拥有高度专业化的技能和角色。
+                </p>
+
+                <blockquote class="serif-text text-slate-700 text-base md:text-lg border-l-4 border-brand-highlight pl-6 py-4 my-6 bg-slate-50/80 pr-4 rounded-r-xl leading-relaxed italic shadow-sm text-left">
+                    "在一座城市中，为了实现某些崇高的目标，我们需要将人们聚集在一起。同样地，为了实现某些特定的生物学结果，蛋白质必须在特定的时间和地点聚集在一起。因此，我们的实验室专注于创造嵌合体，将细胞中的蛋白质聚集在一起以实现特定的生物学结果。我们处于优势地位，因为我们拥有高效的实验和计算工具来绘制细胞网络和相互作用组。此外，我们的免衍生化平台能够识别可与这些细胞'市民'结合的配体，从而可以创建嵌合体，将细胞大都市中的关键参与者聚集在一起，以实现特定目标。"
+                </blockquote>
+
+                <p class="text-slate-700 leading-relaxed text-base md:text-lg font-sans">
+                    以上叙述支撑了我们对<strong class="text-brand-navy font-bold">邻近生物学</strong>的核心关注，即细胞过程由蛋白质组装体执行。我们不是针对孤立的蛋白质，而是将细胞大都市视为一个集体系统，其中蛋白质之间的战略匹配可以重构细胞过程并产生深远的治疗效应。
+                </p>
+            </div>
+
+            <!-- 细胞社会结构 -->
+            <div class="border-t border-slate-200 pt-12 mt-12">
+                <div class="max-w-2xl mx-auto text-center mb-10">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans">细胞社会结构</h3>
+                    <p class="text-sm md:text-base text-slate-600 font-medium">大都市中大分子联盟的组织方式。</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl border-2 border-amber-300 shadow-md hover:shadow-lg transition-all duration-300 card-hover flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">👤</div>
+                        <div class="space-y-1">
+                            <h4 class="text-base font-bold text-amber-800 uppercase font-sans tracking-wide">市民</h4>
+                            <p class="text-sm md:text-base text-amber-900/80 leading-relaxed">执行局部结构和催化功能的单个生物分子、蛋白质和微型蛋白质。</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-cyan-50 to-teal-50 p-6 rounded-2xl border-2 border-teal-400 shadow-md hover:shadow-lg transition-all duration-300 card-hover flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">🏛️</div>
+                        <div class="space-y-1">
+                            <h4 class="text-base font-bold text-teal-800 uppercase font-sans tracking-wide">组织</h4>
+                            <p class="text-sm md:text-base text-teal-900/80 leading-relaxed">在特定时间和细胞器区域聚集以执行主要细胞功能的动态联盟和复合物。</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-fuchsia-50 p-6 rounded-2xl border-2 border-purple-400 shadow-md hover:shadow-lg transition-all duration-300 card-hover flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">🔗</div>
+                        <div class="space-y-1">
+                            <h4 class="text-base font-bold text-purple-800 uppercase font-sans tracking-wide">媒人</h4>
+                            <p class="text-sm md:text-base text-purple-900/80 leading-relaxed">设计的多功能邻近嵌合体，将关键参与者聚集在一起以实现特定生物学目的。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二幕：转型 -->
+        <section id="shift" class="section-spacing space-y-12">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">第二幕</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">转型</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">演进</span>
+            </div>
+
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <h2 class="text-3xl md:text-5xl font-extrabold text-brand-navy font-sans">从图谱绘制到精准调控</h2>
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed font-sans font-medium">
+                    我们实验室的旅程始于开创性的天然生物分子相互作用谱绘制（图谱阶段），发展到设计主动邻近匹配分子（调控阶段）。
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-8 max-w-5xl mx-auto">
+                <!-- 已建立的基础 -->
+                <div class="bg-white border border-slate-200 p-8 rounded-2xl relative overflow-hidden group hover:border-brand-accent/50 transition duration-300 shadow-sm card-hover">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="text-center">
+                        <span class="text-sm md:text-base font-bold px-3.5 py-1.5 rounded-full bg-blue-100 text-brand-accent font-sans tracking-wide">已建立的基础</span>
+                        <h3 class="text-2xl font-extrabold text-brand-navy mt-4 mb-3 font-sans">系统相互作用组图谱绘制与作用机制研究</h3>
+                    </div>
+
+                    <p class="text-base text-slate-700 leading-relaxed mb-6">
+                        从一开始，我们实验室就专注于<strong class="text-brand-navy">解析生物活性化合物的作用机制</strong>，采用本实验室开发或共同开发的技术。我们相信，<strong class="text-brand-navy">从生物活性化合物出发进行靶标发现和验证，比从未经证实的靶标出发更为有效</strong>。为此，我们发明了热邻近共聚集（TPCA）<a href="#pub-tan2018" class="text-brand-accent hover:underline">[1]</a>——一种基于CETSA-MS或TPP的系统级方法，可直接在完整细胞中分析蛋白质复合物——并不断改进和部署TPP与TPCA技术，以解析靶标结合及下游机制，追踪全局网络重构，并在无需化学衍生化的情况下鉴定天然内源蛋白质的配体。我们研究化学物质如何扰动蛋白质并重构生物分子相互作用网络从而引发疾病表型，反之亦然，化学物质如何被用于改变细胞行为以实现治疗或工业目的。我们与合作伙伴紧密协作，加快实验验证，以遗传学方法为补充，加速发现新的药物靶标和生物学机制。
+                    </p>
+
+                    <!-- Technology tags -->
+                    <div class="flex flex-wrap gap-2 text-xs font-sans text-slate-700 font-semibold justify-center">
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">Slim-TPCA</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">Mito-TPCA</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">STASIS</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">BioFusionDTI</span>
+                    </div>
+                </div>
+
+                <!-- 新方向 -->
+                <div class="bg-white border border-slate-200 p-8 rounded-2xl relative overflow-hidden group hover:border-brand-highlight/50 transition duration-300 shadow-sm text-center card-hover">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-100/30 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+                    <span class="text-sm md:text-base font-bold px-3.5 py-1.5 rounded-full bg-emerald-100 text-brand-highlight font-sans tracking-wide">新方向</span>
+                    <h3 class="text-2xl font-extrabold text-brand-navy mt-4 mb-3 font-sans">化学匹配</h3>
+                    <p class="text-base text-slate-700 leading-relaxed mb-6">
+                        凭借图谱阶段发现的完整社会登记册和天然募集手柄，我们现在专注于合成生物学邻近。我们构建多功能化学嵌合体，以强制将特定市民聚集在一起，编辑翻译后修饰，并重构疾病网络。
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-sans text-slate-700 font-semibold justify-center">
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">PROTACs</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">LYTACs/ATACs</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">PhosTACs</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">分子筛</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 为何转型 -->
+            <div class="max-w-5xl mx-auto bg-gradient-to-r from-emerald-50/80 to-teal-50/80 border border-emerald-200 rounded-2xl p-6 md:p-8 space-y-4 shadow-sm">
+                <h4 class="text-base md:text-lg font-bold uppercase tracking-wider text-brand-highlight font-sans flex items-center justify-center">
+                    <span class="mr-2">🔗</span> 为何转型
+                </h4>
+                <p class="text-sm md:text-base text-slate-800 leading-relaxed font-sans text-center">
+                    至关重要的是，图谱阶段全面绘制的蛋白质之间（以及蛋白质与配体之间）的动态相互作用<strong>仅仅是开始</strong>：我们最终的愿望是<strong>干预生物过程和疾病进展</strong>。正因如此，多年来作用机制研究积累的全面相互作用组图谱、天然配体库和机制洞见，构成了我们新方向的<strong>关键先导和基础数据武器库</strong>。它们提供了精确的结构坐标、天然结合构型和免标记募集手柄，作为调控阶段生成邻近诱导嵌合体的<strong>基本指南和基础物理构件</strong>。通过全面解析细胞大都市的基线连接性，我们获得了无与伦比的战略优势：能够构建精准的化学匹配器，战略性地操纵、重编程或完全重构疾病驱动生物学。我们现在正处于新阶段的门槛——从绘制图谱和理解机制，转向主动调控细胞大都市。
+                </p>
+            </div>
+
+            <!-- 3步流程 -->
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-8 md:p-12 space-y-10 max-w-5xl mx-auto shadow-sm">
+                <div class="max-w-2xl mx-auto text-center space-y-2">
+                    <span class="text-sm uppercase tracking-widest text-brand-accent font-bold font-sans">实验室发现流程</span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans">我们的策略与优势</h3>
+                    <p class="text-sm md:text-base text-slate-600 font-medium">清晰、循序渐进的流程，展示我们的技术如何协同合作以提供分子医学解决方案。</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 relative">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 relative z-10 card-hover">
+                        <h5 class="font-bold text-brand-accent text-lg font-sans"><span class="text-brand-navy">步骤 1:</span> 深度图谱绘制</h5>
+                        <p class="text-sm md:text-base text-slate-600 leading-relaxed font-sans">
+                            我们使用先进的热和邻近聚集蛋白质组学（Slim-TPCA、Mito-TPCA、MAPS-iTSA）来物理绘制蛋白质组装体和可作为募集手柄的化学配体。
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 relative z-10 card-hover">
+                        <h5 class="font-bold text-brand-purple text-lg font-sans"><span class="text-brand-navy">步骤 2:</span> 模拟与扩展</h5>
+                        <p class="text-sm md:text-base text-slate-600 leading-relaxed font-sans">
+                            我们定制的AI模型（BioFusionDTI和TPCA-LLM）整合天然结构、扰动和相互作用图谱与序列特征，预测干预点和相应的靶标-配体相互作用。
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 relative z-10 card-hover">
+                        <h5 class="font-bold text-brand-highlight text-lg font-sans"><span class="text-brand-navy">步骤 3:</span> 主动邻近</h5>
+                        <p class="text-sm md:text-base text-slate-600 leading-relaxed font-sans">
+                            我们使用图谱阶段的募集手柄将疾病靶蛋白与天然细胞机制连接，创建作为匹配器的化学嵌合体，以降解、编辑或重新定位它们。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第三幕：技术库 -->
+        <section id="arsenal" class="section-spacing space-y-16">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">第三幕</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">技术库</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">平台</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-2xl md:text-4xl font-black text-brand-navy font-sans">已建立的技术平台</h2>
+                <p class="text-slate-600 leading-relaxed text-base md:text-xl font-sans font-medium">
+                    为了战略性地干预细胞，我们首先构建了下一代生物物理和机器学习工具，以无化学修饰的方式分析靶标并绘制大分子复合物动态图谱。<span class="text-brand-accent font-semibold">作为热邻近共聚集（TPCA）<a href="#pub-tan2018" class="text-brand-accent hover:underline ml-1">[1]</a>的发明者——一种基于CETSA-MS或TPP的系统级方法，可直接在完整细胞中分析蛋白质复合物——我们的实验室一直专注于持续改进和部署TPP和TPCA，以解析生物活性化合物的靶标结合和下游机制。</span>
+                </p>
+            </div>
+
+            <!-- 蛋白质生物物理与化学蛋白质组学工具包 -->
+            <div class="space-y-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans border-b border-slate-200 pb-3">
+                        🔬 蛋白质生物物理与化学蛋白质组学工具包
+                    </h3>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                    
+                    <!-- MAPS-iTSA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-blue-100 text-brand-accent font-sans uppercase tracking-wide">高通量靶标与配体谱分析</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">MAPS-iTSA 排列谱分析</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            应用遗传二元感应矩阵，将多种化合物以优化排列方式混合。通过非负LASSO回归同时解卷积数千个靶标结合物。
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 完全突破单一化合物通量限制，最大化质谱仪利用率，在创纪录时间内解析数百个靶点。
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            文献：Ji et al., Cell Chem Biol 2023 <a href="#pub-ji2023" class="text-brand-accent hover:underline ml-1">[2]</a>
+                        </span>
+                    </div>
+
+                    <!-- STASIS -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-brand-highlight font-sans uppercase tracking-wide">微量与临床样本谱分析</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">STASIS</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            将热谱分析要求从100 µg降至仅需<strong>1 µg</strong>蛋白质。整合单管零转移热加热和功能化离心柱消化（SISPROT）。
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 保护微量患者样本和稀有原代细胞在转移过程中免于肽段损失，实现临床活检中的直接靶标解卷积。
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            文献：Lu et al., Anal Chem 2023 <a href="#pub-lu2023" class="text-brand-accent hover:underline ml-1">[3]</a>
+                        </span>
+                    </div>
+
+                    <!-- SIP-TPP -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-brand-highlight font-sans uppercase tracking-wide">免标记蛋白质组学</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">SIP-TPP</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            引入未加热的"掺入蛋白质组"（SIP），在无标记数据非依赖性采集（DIA）过程中拯救热变性和耗尽的蛋白质。
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 将分析型肽段覆盖率提高<strong>17.6%</strong>，在无标记DIA定量下检测<strong>30%更多蛋白质</strong>，防止数据缺失。
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            文献：Wang et al., Anal Chem 2024 <a href="#pub-wang2024" class="text-brand-accent hover:underline ml-1">[4]</a>
+                        </span>
+                    </div>
+
+                    <!-- Slim-TPCA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-purple-100 text-brand-purple font-sans uppercase tracking-wide">空间与复合物组装监测</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">Slim-TPCA</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            将传统的10温度熔解曲线压缩至3或4个优化温度点。用Beta分布建模替代引导模拟。
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 将实验通量提高<strong>3倍以上</strong>，消除批次效应，实现令人难以置信的<strong>100倍计算加速</strong>。
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            文献：Sun et al., Nat Commun 2023 <a href="#pub-sun2023" class="text-brand-accent hover:underline ml-1">[5]</a>
+                        </span>
+                    </div>
+
+                    <!-- Mito-TPCA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-purple-100 text-brand-purple font-sans uppercase tracking-wide">细胞器特异性动态</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">Mito-TPCA</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            将局部邻近标记酶与热共聚集相结合，直接绘制活细胞中细胞器特异性蛋白质-蛋白质相互作用图谱。
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 捕捉细胞器内的空间复合物动态，解析自噬等细胞事件中线粒体亚复合物的解离。
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            文献：Zhang et al., Cell Comm Sign 2026 <a href="#pub-zhang2026" class="text-brand-accent hover:underline ml-1">[6]</a>
+                        </span>
+                    </div>
+
+                    <!-- RAPID-OPA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-amber-100 text-brand-amber font-sans uppercase tracking-wide">免标记结构构象图谱</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">RAPID-OPA</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            利用邻苯二甲醛（OPA）反应动力学和胰蛋白酶肽段耗竭的"反向检测"，在完整细胞中标记暴露的赖氨酸残基。
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 直接在完整细胞内解析精确的结合口袋残基和药物诱导的结构重构，无需工程化标签。
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            文献：Zheng et al., Chem Sci 2024 <a href="#pub-zheng2024" class="text-brand-accent hover:underline ml-1">[7]</a>
+                        </span>
+                    </div>
+
+                </div>
+
+                <!-- 解锁暗蛋白质组 -->
+                <div class="space-y-8 mt-16 pt-8 border-t border-slate-200 max-w-5xl mx-auto">
+                    <div class="max-w-2xl mx-auto text-center">
+                        <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans border-b border-slate-200 pb-3">
+                            🔒 解锁暗蛋白质组
+                        </h3>
+                        <p class="text-sm md:text-base text-slate-600 font-medium mt-3">发现先前隐藏的细胞参与者，构建新型分子弹头。</p>
+                    </div>
+                    
+                    <div class="bg-slate-50 border border-slate-200 p-8 md:p-12 rounded-3xl shadow-sm">
+                        <div class="bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col md:flex-row items-center gap-8 card-hover">
+                            <div class="text-4xl p-5 bg-purple-50 rounded-full text-brand-purple shadow-sm">🔒</div>
+                            <div class="space-y-4">
+                                <h4 class="text-xl font-bold text-brand-navy font-sans">分子筛发现核心</h4>
+                                <p class="text-base text-slate-600 leading-relaxed font-sans">
+                                    标准药物发现忽略了数百种微小蛋白质（细胞的"暗市民"）。为了识别这些未知参与者并扩展我们的化学工具包，我们设计了磁性<strong>核壳共价有机框架（COFs）</strong>，具有均匀的2.72 nm孔径网格。
+                                </p>
+                                <p class="text-base text-slate-600 leading-relaxed font-sans">
+                                    这些先进的物理筛网结合了尺寸排阻和酸沉淀，选择性富集并鉴定短开放阅读框（sORF）编码的微型蛋白质。我们在动态细胞死亡事件中成功鉴定了<strong>195种独特的微型蛋白质</strong>，为我们的化学匹配库增加了全新的靶点和募集坐标。
+                                </p>
+                                <span class="block text-sm font-sans text-slate-600 font-semibold uppercase mt-2">文献：Li et al., Anal Chem 2026 / Zhang et al., APSB 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI与情境网络挖掘 -->
+            <div class="space-y-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans border-b border-slate-200 pb-3">
+                        💻 AI与情境网络挖掘
+                    </h3>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover space-y-3 shadow-sm text-base md:text-lg">
+                        <div class="mb-1"><span class="text-xs md:text-sm font-bold px-3 py-1 rounded-full bg-blue-100 text-brand-accent font-sans uppercase">CPI虚拟筛选</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">BioFusionDTI</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+                            一种多模态深度学习架构，通过双线性注意力网络（BAN）融合药物GCN图和ESM-2蛋白质序列嵌入。
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 消除"冷启动"预测障碍，输出清晰的单残基结合分辨率图谱。
+                        </div>
+                        <span class="block text-base md:text-lg font-sans text-slate-600 font-semibold uppercase">文献：Chen et al., JCIM 2025</span>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover space-y-3 shadow-sm text-base md:text-lg">
+                        <div class="mb-1"><span class="text-xs md:text-sm font-bold px-3 py-1 rounded-full bg-purple-100 text-brand-purple font-sans uppercase">复合物动态</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">扰动 TPCA-LLM</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+                            一种专门的图变换器，将序列特征与来自Slim-TPCA和Mito-TPCA运行的动态物理共行为矩阵配对。
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 预测瞬态、低亲和力或高度情境特异性的大分子界面重构。
+                        </div>
+                        <span class="block text-base md:text-lg font-sans text-slate-600 font-semibold uppercase">模型：自研LLM</span>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover space-y-3 shadow-sm text-base md:text-lg">
+                        <div class="mb-1"><span class="text-xs md:text-sm font-bold px-3 py-1 rounded-full bg-emerald-100 text-brand-highlight font-sans uppercase">网络挖掘</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">情境网络挖掘</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+                            利用公共和内部的实验扰动数据集（CRISPR/药物敏感性）过滤生物噪声，绘制细胞特异性组装图谱。
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">优势与影响：</strong> 识别情境必需基因和动态关系，提供细胞网络重构的精确坐标。
+                        </div>
+                        <span class="block text-base md:text-lg font-sans text-slate-600 font-semibold uppercase">文献：Zeng et al., Knowl-Based Syst 2026</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 第四幕：新阶段 -->
+        <section id="tinkering-direction" class="section-spacing space-y-16">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">第四幕</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">新阶段</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">调控</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-2xl md:text-4xl font-extrabold text-brand-navy font-sans">新方向</h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-lg font-sans">
+                    利用图谱阶段开发的物理靶标结合图谱和天然免衍生化配体作为模块化"募集手柄"，我们设计多功能化学嵌合体。这些嵌合体作为分子匹配器，强制细胞大都市中的关键参与者聚集并实现特定的治疗结果。
+                </p>
+            </div>
+
+            <!-- 邻近嵌合体工具包 -->
+            <div class="space-y-8 max-w-5xl mx-auto">
+                <div class="max-w-2xl mx-auto text-center space-y-2">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans">邻近嵌合体工具包</h3>
+                    <p class="text-sm md:text-base text-slate-600 font-medium">利用图谱阶段绘制的相互作用网络作为指南，天然配体作为物理构件，工程化化学匹配器。</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-red-50 rounded-xl text-red-600 self-start shadow-sm">🗑️</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">PROTAC 降解剂</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">将致病靶蛋白化学连接到天然E3泛素连接酶（CRBN、VHL），触发选择性蛋白酶体介导的降解。</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-emerald-50 rounded-xl text-brand-highlight self-start shadow-sm">🧹</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">LYTACs、ATACs &amp; AUTACs</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">招募细胞外受体或溶酶体/自噬机制，清除大型致病聚集体或整个功能失调的细胞器区域（如受损线粒体）。</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-purple-50 rounded-xl text-brand-purple self-start shadow-sm">✒️</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">PhosTAC &amp; KineTAC 编辑器</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">将激酶或磷酸酶直接连接到非天然底物，动态编辑翻译后修饰（PTM），绕过上游信号阻断。</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-blue-50 rounded-xl text-brand-accent self-start shadow-sm">🔒</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">DUBTAC 稳定剂</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">将特定靶标直接连接到去泛素化酶（如OTUB1），拯救关键保护酶免于过早降解，维持稳态。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 战略合作邀请 -->
+            <div id="partner" class="bg-gradient-to-r from-emerald-50/80 to-teal-50/80 border border-emerald-200 rounded-3xl p-8 md:p-12 max-w-5xl mx-auto space-y-6 text-center shadow-sm">
+                <span class="text-sm uppercase tracking-widest text-brand-highlight font-extrabold font-sans">战略合作邀请</span>
+                <h3 class="text-2xl md:text-4xl font-black text-brand-navy font-sans">合作开展邻近生物学与邻近嵌合体研究</h3>
+                <p class="text-base md:text-lg text-slate-700 leading-relaxed max-w-3xl mx-auto font-sans font-medium">
+                    我们实验室正在积极寻求<strong>战略生物制药和学术合作者，特别是在我们开发下一代化学嵌合体的下一阶段</strong>。通过结合我们稳健的图谱阶段实验-计算相互作用组图谱和免衍生化天然配体作为物理构件，我们邀请合作伙伴共同工程化和优化邻近诱导剂（如PROTACs、LYTACs、ATACs、PhosTACs和DUBTACs），以系统性地调控、重编程或重构疾病驱动生物学，用于多样化的临床和治疗目的。
+                </p>
+                <div class="pt-4">
+                    <a href="#footer" class="inline-block bg-brand-highlight hover:bg-emerald-800 text-white font-bold px-8 py-3.5 rounded-full transition shadow-md font-sans">
+                        与我们合作
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第五幕：合作成果 -->
+        <section id="collaborations" class="section-spacing space-y-12">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">第五幕</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">合作</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">转化</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-2xl md:text-4xl font-extrabold text-brand-navy font-sans">合作生物学发现</h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base font-sans">
+                    通过与全球领先的临床和生物学团队合作，我们应用下一代化学蛋白质组学图谱和预测平台，解卷积疾病机制并解决现实世界的生物学挑战。<strong>我们特别欢迎在我们下一阶段旅程中的战略合作者。</strong>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-highlight/10 text-brand-highlight rounded-full uppercase tracking-wider font-sans">🌱 天然产物</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">通过ACLY代谢重编程靶向银屑病 <sup class="text-brand-highlight font-extrabold font-sans text-xs md:text-sm">[10]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        应用<strong>MAPS-iTSA</strong>平台筛选50种结构多样的天然产物，鉴定出<strong>去甲泽拉醛</strong>（来自药用植物<em>雷公藤</em>）直接结合并抑制<strong>ATP-柠檬酸裂解酶（ACLY）</strong>。这种靶标结合阻止了角质形成细胞中的脂质代谢重编程，成功缓解了咪喹莫特（IMQ）诱导的银屑病样小鼠模型的皮肤炎症。
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-accent/10 text-brand-accent rounded-full uppercase tracking-wider font-sans">🔬 机制通路</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">藜芦胺自噬通量阻断 <sup class="text-brand-accent font-extrabold font-sans text-xs md:text-sm">[6]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        整合的TPP-TPCA谱分析揭示植物天然产物<strong>藜芦胺（VAM）</strong>靶向液泡型ATP酶（V-ATPase）的<strong>ATP6V1C1</strong>亚基。这种结合驱动质子泵解离，使溶酶体酸化失活，关闭自噬生存机制，抑制胰腺癌进展。
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-purple/10 text-brand-purple rounded-full uppercase tracking-wider font-sans">🧬 荧光成像</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">肝癌探针hLR和cLG的解卷积 <sup class="text-brand-purple font-extrabold font-sans text-xs md:text-sm">[8]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        通过解卷积肝癌特异性荧光探针的精确细胞靶标（鉴定直接膜靶标<strong>SMPD1</strong>和<strong>SLC27A2</strong>），我们提供了支持现实世界荧光引导临床肿瘤切除所需的深层生物物理验证。
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-amber/10 text-brand-amber rounded-full uppercase tracking-wider font-sans">🔋 线粒体代谢</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">Elesclomol解离PDKs-PDH复合物 <sup class="text-brand-amber font-extrabold font-sans text-xs md:text-sm">[9]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        利用细胞器特异性<strong>Mito-TPCA</strong>，我们揭示铜离子载体药物<strong>elesclomol</strong>通过物理破坏丙酮酸脱氢酶激酶（PDKs）与线粒体中PDH复合物的结合，选择性诱导铁和铜依赖性铜死亡，驱动选择性肿瘤死亡。
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 md:col-span-2 shadow-sm card-hover">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-red-100 text-red-700 rounded-full uppercase tracking-wider font-sans">🦠 病原体代谢物</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">PQS细菌代谢物劫持CNMT驱动严重巨噬细胞铁死亡 <sup class="text-red-600 font-extrabold font-sans text-xs md:text-sm">[7]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        我们发现<em>铜绿假单胞菌</em>群体感应代谢物<strong>PQS</strong>直接靶向宿主甲基转移酶<strong>CNMT</strong>，过度激活转铁蛋白受体-1（TFR1）的组氨酸甲基化。这种分子劫持导致严重呼吸道感染期间巨噬细胞铁过载和铁死亡。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第六幕：文献 -->
+        <section id="publications" class="section-spacing space-y-12">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1 rounded-full">第六幕</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-navy bg-slate-200 px-3 py-1 rounded-full">文献</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1 rounded-full">出版物</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-3xl md:text-5xl font-extrabold text-brand-navy font-sans">同行评审文献</h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base font-sans">
+                    我们实验室开创性出版物的精选集，构成了我们靶标发现和邻近工程引擎的物理和计算基础。
+                </p>
+            </div>
+
+            <div class="space-y-6 max-w-4xl mx-auto">
+                <!-- Tan 2018 -->
+                <div id="pub-tan2018" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent uppercase tracking-wider font-sans">[1] TPCA（热邻近共聚集）</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Thermal proximity coaggregation for system-wide profiling of protein complex dynamics in cells</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Tan, C. S. H., Go, K. D., Bisteau, X., Dai, L., Yong, C. H., Prabhu, N., Ozturk, M. B., Lim, Y. T., Sreekumar, L., Lengqvist, J., Tergaonkar, V., Kaldis, P., Sobota, R. M., &amp; Nordlund, P. (2018). <strong>Science</strong>, 359(6380), 1170–1177.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 发明了<strong>热邻近共聚集（TPCA）</strong>，一种基于CETSA-MS的系统级方法，可直接在完整细胞中分析蛋白质复合物。证明了蛋白质复合物表现出协调的热熔解行为，能够在无化学修饰或标签的生理条件下识别天然蛋白质-蛋白质相互作用和复合物动态。
+                    </p>
+                </div>
+
+                <!-- Lu 2023 -->
+                <div id="pub-lu2023" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent uppercase tracking-wider font-sans">[3] STASIS（微量采样）</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Scaled-Down Thermal Profiling and Coaggregation Analysis of the Proteome for Drug Target and Protein Interaction Analysis</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Lu, X., Liao, B., Sun, S., Mao, Y., Wu, Q., Tian, R., &amp; Tan, C. S. H. (2023). <strong>Analytical Chemistry</strong>, 95(37), 13844–13854.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 开发了<strong>STASIS</strong>工作流程，将所需蛋白质输入从100 µg降至每温度点<strong>1 µg</strong>，使用PCR零转移热挑战、集成离心柱消化（SISPROT）和功能化离心柱内的微量肽段分级。
+                    </p>
+                </div>
+
+                <!-- Ji 2023 -->
+                <div id="pub-ji2023" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-highlight/10 text-brand-highlight uppercase tracking-wider font-sans">[2] MAPS（高通量图谱）</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Matrix-Augmented Pooling Strategy (MAPS) for large-scale proteome-wide profiling of protein-chemical interactions with derivatization-free MS-based approaches</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Ji, H., Lu, X., Zhao, S., Wang, Q., Liao, B., Bauer, L. G., Huber, K. V. M., Luo, R., Tian, R., &amp; Tan, C. S. H. (2023). <strong>Cell Chemical Biology</strong>, 30(10), 1255–1268.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 发明了<strong>MAP-iTSA</strong>平台，通过优化矩阵排列混合化合物，利用非负LASSO回归解卷积靶标，显著加速免衍生化命中发现，将实验通量提高。
+                    </p>
+                </div>
+
+                <!-- Wang 2024 -->
+                <div id="pub-wang2024" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-highlight/10 text-brand-highlight uppercase tracking-wider font-sans">[4] SIP-TPP（免标记蛋白质组学）</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Spike-In Proteome Enhances Data-Independent Acquisition for Thermal Proteome Profiling</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Wang, Q., Chen, Q., Lin, Y., He, D., Ji, H., &amp; Tan, C. S. H. (2024). <strong>Analytical Chemistry</strong>, 96(49), 19695–19705.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 引入了<strong>SIP（掺入蛋白质组）-TPP</strong>策略用于DIA-TPP，添加未加热蛋白质组以防止热变性耗竭，在无标记DIA定量下将蛋白质组覆盖率提高<strong>17.6%</strong>，检测<strong>30%更多蛋白质</strong>。
+                    </p>
+                </div>
+
+                <!-- Sun 2023 -->
+                <div id="pub-sun2023" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-purple/10 text-brand-purple uppercase tracking-wider font-sans">[5] Slim-TPCA</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Improved in situ characterization of protein complex dynamics at scale with thermal proximity co-aggregation</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Sun, S., Zheng, Z., Wang, J., Li, F., He, A., opacity, K., Zhang, S., Lu, J. H., Tian, R., &amp; Tan, C. S. H. (2023). <strong>Nature Communications</strong>, 14(1), 7697.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 开发了<strong>Slim-TPCA</strong>协议，将10温度熔解曲线压缩至<strong>3或4个优化温度</strong>，将通量提高<strong>3倍以上</strong>，消除批次效应。用<strong>拟合Beta分布P值建模</strong>替代引导模拟，将计算时间减少<strong>100倍以上</strong>。
+                    </p>
+                </div>
+
+                <!-- Zhang 2026 -->
+                <div id="pub-zhang2026" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-purple/10 text-brand-purple uppercase tracking-wider font-sans">[6] 蛋白质复合物动态</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">In situ profiling of protein complexes during autophagy and mitophagy using thermal proximity co-aggregation</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Zhang, S., Zeng, Y., Li, F., Liao, B., Wang, J., Lu, J., &amp; Tan, C. S. H. (2026). <strong>Cell Communication and Signaling</strong>, 24, 315.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 大规模部署Slim-TPCA，绘制化学诱导自噬（Torin 1）和线粒体自噬（CCCP）期间时间分辨的细胞相互作用组重构，识别离散的信号起始枢纽和质量控制网络。
+                    </p>
+                </div>
+
+                <!-- Zhang 2025 -->
+                <div id="pub-zhang2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-glow/10 text-brand-accent uppercase tracking-wider font-sans">[6] ATP6V1C1靶标</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Integrated thermal proteome and thermal proximity co-aggregation profiling identifies ATP6V1C1 as a novel anti-cancer drug target</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Zhang, S., Li, F. M., Wang, J., Dong, Y., Luo, J. F., Huang, X. F., Li, Y., Zhu, G. Y., Qi, S. Q., Shen, H. M., Zhong, Q., Ming, C., Zeng, K. W., Yao, X. J., Tan, C. S. H., &amp; Lu, J. H. (2025). <strong>International Journal of Biological Sciences</strong>, 21(7), 3197–3213.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 结合TPP和TPCA（包括<strong>mito-TPCA</strong>细胞器特异性呼吸和核糖体复合物图谱）在代谢应激下解卷积药物靶标机制，成功鉴定液泡ATP酶亚基<strong>ATP6V1C1</strong>作为抗癌治疗靶标。
+                    </p>
+                </div>
+
+                <!-- Jia 2025 -->
+                <div id="pub-jia2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-red-100 text-red-700 uppercase tracking-wide font-sans">[7] 宿主-病原体铁死亡</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">A Pseudomonas aeruginosa quorum-sensing metabolite manipulates macrophage ferroptosis through a methylation pathway</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Jia, T., Li, F., Li, T., Ren, A., Lu, P., Liu, Y., Zhou, Y., Duan, X., Liu, Y., Zhong, L., Zhang, Z., Tan, C. S. H., &amp; Yang, L. (2025). <strong>Nature Communications</strong>, 16, 65142. doi:10.1038/s41467-025-65142-y.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 鉴定宿主甲基转移酶<strong>CNMT</strong>为细菌QS代谢物<strong>PQS</strong>的直接细胞内受体。PQS结合增强CNMT His MTase活性，催化<strong>TFR1</strong>在<strong>His35</strong>的甲基化以上调蛋白表达，驱动严重肺部感染期间巨噬细胞铁过载和脂质过氧化级联反应。
+                    </p>
+                </div>
+
+                <!-- Gao 2025 -->
+                <div id="pub-gao2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-purple-100 text-brand-purple uppercase tracking-wide font-sans">[8] 互补肿瘤成像</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">A Pair of Fluorescent Probes Enabling Precise Diagnosis of Liver Cancer by Complementary Imaging</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Gao, M., Lee, S. H., Kwon, H.-Y., Ciaramicoli, L. M., Jo, E., Yu, Y. H., Li, F., Kim, B., Hong, K., Lee, J.-S., Kim, N., Oh, Y., Im, C. Y., Tan, C. S. H., Ha, H.-H., &amp; Chang, Y.-T. (2025). <strong>ACS Central Science</strong>, 11(1), 76–83. doi:10.1021/acscentsci.4c01822.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 开发了cLG（癌性肝绿）和hLR（健康肝红）探针，用于肝细胞癌的互补边界成像。通过CRISPRa激活筛选鉴定脂肪酸转运蛋白<strong>SLC27A2（FATP2）</strong>为cLG的门控输入蛋白，并通过热蛋白质组谱分析（TPP）绘制<strong>SMPD1</strong>为hLR的膜靶标。
+                    </p>
+                </div>
+
+                <!-- Huang 2025 -->
+                <div id="pub-huang2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-amber-100 text-brand-amber uppercase tracking-wide font-sans">[9] 亚细胞器复合物动态</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">Mitochondrial thermal proteome profiling reveals aberrant activation of pyruvate dehydrogenase upon cuproptosis</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Huang, Z., Liu, Y., Zeng, Y., Wang, J., Sun, S., Tan, C. S. H., &amp; Chen, P. R. (2025). <strong>Cell Reports</strong>, 44(7), 115937. doi:10.1016/j.celrep.2025.115937.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 开发了<strong>Mito-TPCA</strong>（线粒体基质共聚集分析），揭示由<strong>elesclomol</strong>转运的铜结合脂酰域，破坏丙酮酸脱氢酶激酶（<strong>PDKs</strong>）与<strong>PDH</strong>复合物的物理结合，触发PDHA1去磷酸化和过度活化，作为铜死亡的关键驱动因素。
+                    </p>
+                </div>
+
+                <!-- Wang 2025 -->
+                <div id="pub-wang2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-brand-highlight uppercase tracking-wide font-sans">[10] AI-化学蛋白质组解卷积</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">Thermal Proteomics and AI-assisted Target Deconvolution Identify ACLY as a Direct Target of Demethylzeylasteral in Psoriasis</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Wang, Q., Yu, N., Song, Y., Fan, X., Tian, J., Chang, S., Guo, Y., Tan, C. S. H., &amp; Ji, H. (2025). <em>Manuscript under review</em>.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>关键贡献：</em> 开发了一个整合的靶标发现框架，结合<strong>MAPS-iTSA</strong>生物物理筛选和结构感知<strong>HoloGNN</strong>图神经网络，鉴定<strong>ACLY</strong>为药用三萜类化合物<strong>去甲泽拉醛</strong>（具有微摩尔级亲和力）的直接功能受体。证明抑制ACLY可逆转角质形成细胞中脂源性SREBP依赖性重编程，从而解决银屑病样皮炎。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="bg-slate-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+                <span class="text-2xl md:text-3xl font-normal text-white font-sans">
+                    <span class="text-sm font-semibold text-white uppercase tracking-widest">AN</span>
+                    <span class="text-lg md:text-xl">inter</span><sup class="text-sky-500 italic text-base">n</sup><span class="text-red-700 italic text-2xl md:text-3xl">O</span><span class="text-lg md:text-xl">mics</span>
+                    <span class="text-sm font-semibold text-white uppercase tracking-widest ml-1">LAB</span>
+                </span>
+                <p class="text-sm text-slate-400 leading-relaxed max-w-sm font-sans">
+                    南方科技大学（SUSTech），中国深圳。开创性的生物物理和AI驱动平台，用于绘制和主动重构动态细胞大都市。<strong>我们特别欢迎在我们下一阶段旅程中的战略合作者。</strong>
+                </p>
+            </div>
+            
+            <div class="space-y-3 text-sm">
+                <h4 class="font-bold text-white uppercase tracking-wider font-sans">联系方式</h4>
+                <p class="text-slate-400 font-sans">化学系 &amp; 化学生物学研究中心，南方科技大学</p>
+                <p class="text-slate-400 font-sans">邮箱：christan@sustech.edu.cn</p>
+            </div>
+
+            <div class="space-y-3 text-sm">
+                <h4 class="font-bold text-white uppercase tracking-wider font-sans">资助与支持</h4>
+                <p class="text-slate-400 leading-relaxed font-sans">
+                    感谢科技部、国家自然科学基金委、深圳市科技创新委员会和广东省工程技术研究中心的支持。
+                </p>
+            </div>
+        </div>
+        <div class="text-center text-xs text-slate-500 mt-12 border-t border-slate-800 pt-6 font-sans">
+            © 2026 系统化学生物学与药理学实验室 — 陈顺兴博士。保留所有权利。
+        </div>
+    </footer>
+
+    <!-- BACKGROUND CANVAS -->
+    <script>
+        const canvas = document.getElementById("metropolisCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+        const maxParticles = 75;
+
+        const colors = [
+            "rgba(37, 99, 235, 0.35)",
+            "rgba(59, 130, 246, 0.25)",
+            "rgba(5, 150, 105, 0.3)",
+            "rgba(124, 58, 237, 0.2)",
+            "rgba(217, 119, 6, 0.15)"
+        ];
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 4 + 2.5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+
+            update() {
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                this.x += this.vx;
+                this.y += this.vy;
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function drawLinks() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(148, 163, 184, ${0.1 * (1 - dist / 110)})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = "rgba(148, 163, 184, 0.04)";
+            ctx.lineWidth = 1;
+            const gridStep = 80;
+            for (let x = 0; x < canvas.width; x += gridStep) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += gridStep) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            drawLinks();
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
