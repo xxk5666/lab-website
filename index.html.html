@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Chemical Biology &amp; Pharmacology Laboratory — SUSTech</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#FFFFFF',
+                            surface: '#F8FAFC',
+                            border: '#E2E8F0',
+                            navy: '#0F172A',
+                            accent: '#1D4ED8',
+                            glow: '#2563EB',
+                            highlight: '#047857',
+                            purple: '#6D28D9',
+                            amber: '#B45309'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Georgia', 'serif'],
+                        mono: ['monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .serif-text {
+            font-family: 'Georgia', serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(226, 232, 240, 1);
+        }
+        .glow-effect:hover {
+            box-shadow: 0 10px 30px rgba(29, 78, 216, 0.12);
+            border-color: rgba(29, 78, 216, 0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glow-effect-green:hover {
+            box-shadow: 0 10px 30px rgba(4, 120, 87, 0.12);
+            border-color: rgba(4, 120, 87, 0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        /* Improved typography */
+        .section-spacing {
+            scroll-margin-top: 5rem;
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-brand-navy">
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-accent to-brand-highlight flex items-center justify-center font-black text-white text-lg">
+                    iO
+                </div>
+                <span class="text-2xl md:text-3xl font-normal tracking-tight text-brand-navy font-sans">
+                    <span class="text-sm font-semibold text-slate-800 uppercase tracking-widest">AN</span>
+                    <span class="text-lg md:text-xl">inter</span><sup class="text-sky-500 italic text-base">n</sup><span class="text-red-700 italic text-2xl md:text-3xl">O</span><span class="text-lg md:text-xl">mics</span>
+                    <span class="text-sm font-semibold text-slate-800 uppercase tracking-widest ml-1">LAB</span>
+                </span>
+            </div>
+            
+            <nav class="hidden lg:flex items-center space-x-2 text-base md:text-lg font-semibold text-slate-800">
+                <a href="#concepts" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">Concepts</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#shift" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">The Shift</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#arsenal" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">Arsenal</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#tinkering-direction" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">The Next Phase</a>
+                <span class="text-slate-300 font-light">→</span>
+                <a href="#partner" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-brand-accent transition-all duration-200">Collaborations</a>
+            </nav>
+
+            <a href="#footer" class="bg-brand-accent hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-full transition shadow-lg shadow-blue-500/10">
+                Contact &amp; Join
+            </a>
+        </div>
+    </header>
+
+    <!-- CLEAN HERO AREA -->
+    <section class="relative w-full min-h-[60vh] bg-gradient-to-br from-slate-50 via-white to-blue-50/30 border-b border-slate-200 overflow-hidden flex items-center justify-center">
+        <canvas id="metropolisCanvas" class="absolute inset-0 w-full h-full opacity-60"></canvas>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white pointer-events-none"></div>
+
+        <div class="relative max-w-4xl mx-auto px-6 text-center z-10 py-16 space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-emerald-100 border border-blue-200/50 mb-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs md:text-sm font-bold text-brand-accent font-sans tracking-wide uppercase">Ushering Into a New Phase</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-brand-navy leading-tight font-sans">
+                Tinkering Biology <br class="hidden md:block">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent via-blue-500 to-brand-highlight">with Chemicals</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed font-sans font-medium">
+                Leveraging scalable native protein biophysics, derivatization-free chemical proteomics, and biological Large Language Models to design precision proximity-inducing chemicals <strong class="text-brand-navy font-black">that rewire cellular processes</strong>.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+                <a href="#concepts" class="w-full sm:w-auto text-center bg-brand-navy text-white font-bold px-6 py-3.5 rounded-lg hover:bg-slate-800 transition duration-200 shadow-md text-sm">
+                    Our Concepts
+                </a>
+                <a href="#arsenal" class="w-full sm:w-auto text-center bg-white text-slate-800 border border-slate-300 hover:border-slate-500 font-bold px-6 py-3.5 rounded-lg transition duration-200 shadow-sm text-sm">
+                    Explore Arsenal
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-6 py-16 space-y-32">
+
+        <!-- ACT 1: CONCEPTS -->
+        <section id="concepts" class="section-spacing space-y-12 bg-white border border-slate-200 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-sm">
+            <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-brand-highlight/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">ACT 1</span>
+                <span class="h-px flex-1 bg-slate-200"></span>
+            </div>
+
+            <div class="max-w-4xl mx-auto text-center space-y-6">
+                <h2 class="text-3xl md:text-5xl font-black text-brand-navy font-sans">The Cellular Metropolis</h2>
+                
+                <p class="text-slate-700 leading-relaxed text-base md:text-xl font-sans font-medium">
+                    Imagine a living cell not as a chaotic test tube of random chemical events, but as a <strong class="text-brand-navy font-extrabold">bustling, highly organized metropolis</strong>. Individual biomolecules—including proteins, metabolites, peptides, and lipids—are the diverse <strong class="text-brand-navy font-extrabold">"Citizens"</strong> walking the streets, each with highly specialized skills and roles.
+                </p>
+
+                <blockquote class="serif-text text-slate-700 text-base md:text-lg border-l-4 border-brand-highlight pl-6 py-4 my-6 bg-slate-50/80 pr-4 rounded-r-xl leading-relaxed italic shadow-sm text-left">
+                    "In a city, to attain some lofty goals, we need to bring people together. Similarly, to achieve some specific biological outcomes, proteins must come together, often at specific time and location. Thus, our lab focus on creating chimeras to bring proteins together in the cells to achieve specific biological outcome. We are in advantage position to do so as we have high efficient experimental and computational tools to map the cellular network and interactome. In addition, our derivation-free platform identify ligands that could engage these 'citizens' of the cells, where chimeras could be created to bring crucial players in this cellular metropolis to crystallise specific purpose."
+                </blockquote>
+
+                <p class="text-slate-700 leading-relaxed text-base md:text-lg font-sans">
+                    Above narrative underpins our core focus on <strong class="text-brand-navy font-bold">proximity biology</strong> where cellular processes are carried by protein assemblies. Rather than targeting isolated proteins, we look at the cellular metropolis as a collective system where strategic matchmaking between proteins could rewire cellular processes and drive profound therapeutic effects.
+                </p>
+            </div>
+
+            <!-- Cellular Social Structure -->
+            <div class="border-t border-slate-200 pt-12 mt-12">
+                <div class="max-w-2xl mx-auto text-center mb-10">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans">Cellular Social Structure</h3>
+                    <p class="text-sm md:text-base text-slate-600 font-medium">How the macromolecular alliances of the metropolis are organized.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl border-2 border-amber-300 shadow-md hover:shadow-lg transition-all duration-300 card-hover flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">👤</div>
+                        <div class="space-y-1">
+                            <h4 class="text-base font-bold text-amber-800 uppercase font-sans tracking-wide">The Citizens</h4>
+                            <p class="text-sm md:text-base text-amber-900/80 leading-relaxed">Individual biomolecules, proteins, and microproteins executing localized structural and catalytic work.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-cyan-50 to-teal-50 p-6 rounded-2xl border-2 border-teal-400 shadow-md hover:shadow-lg transition-all duration-300 card-hover flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">🏛️</div>
+                        <div class="space-y-1">
+                            <h4 class="text-base font-bold text-teal-800 uppercase font-sans tracking-wide">The Organization</h4>
+                            <p class="text-sm md:text-base text-teal-900/80 leading-relaxed">Dynamic alliances and complexes gathering at specific times and organelle districts to perform major cellular functions.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-fuchsia-50 p-6 rounded-2xl border-2 border-purple-400 shadow-md hover:shadow-lg transition-all duration-300 card-hover flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">🔗</div>
+                        <div class="space-y-1">
+                            <h4 class="text-base font-bold text-purple-800 uppercase font-sans tracking-wide">The Matchmaker</h4>
+                            <p class="text-sm md:text-base text-purple-900/80 leading-relaxed">Multifunctional proximity chimeras engineered to bring crucial players together to crystallize targeted biological purposes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACT 2: THE SHIFT -->
+        <section id="shift" class="section-spacing space-y-12">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">ACT 2</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">The Shift</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">Evolution</span>
+            </div>
+
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <h2 class="text-3xl md:text-5xl font-extrabold text-brand-navy font-sans">From Mapping to Tinkering</h2>
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed font-sans font-medium">
+                    Our laboratory's journey started from pioneering native bimolecular interaction profiling (Mapping Stage) to designing active proximity matchmaking molecules (Tinkering Stage).
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-8 max-w-5xl mx-auto">
+                <!-- ESTABLISHED FOUNDATION -->
+                <div class="bg-white border border-slate-200 p-8 rounded-2xl relative overflow-hidden group hover:border-brand-accent/50 transition duration-300 shadow-sm card-hover">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="text-center">
+                        <span class="text-sm md:text-base font-bold px-3.5 py-1.5 rounded-full bg-blue-100 text-brand-accent font-sans tracking-wide">ESTABLISHED FOUNDATION</span>
+                        <h3 class="text-2xl font-extrabold text-brand-navy mt-4 mb-3 font-sans">Systematic Interactome Mapping &amp; Mechanism-of-Action Studies</h3>
+                    </div>
+
+                    <p class="text-base text-slate-700 leading-relaxed mb-6">
+                        From the beginning, our laboratory has focused on dissecting the mechanisms of bioactive compounds using techniques developed or co-developed by the lab, believing that target discovery and validation are more effective starting from bioactive compounds rather than unproven targets. To this end, we invented Thermal Proximity Co-Aggregation (TPCA)<a href="#pub-tan2018" class="text-brand-accent hover:underline">[1]</a>—a system-wide approach based on CETSA-MS or TPP to profile protein complexes directly in intact cells—and have continually improvised and deployed TPP and TPCA to dissect target-binding and downstream mechanisms, tracking global network rewiring, and identifying ligands of endogenous protein in native context without chemical derivatization. We study how chemicals perturb proteins and rewire biomolecular interaction networks leading to diseased phenotypes, and conversely, how chemicals can alter cellular behaviors for therapeutic or industrial purposes. We work closely with collaborators to expedite experimental validation, complementing our techniques with genetic approaches to accelerate the discovery of new drug targets and biology.
+                    </p>
+
+                    <!-- Technology tags -->
+                    <div class="flex flex-wrap gap-2 text-xs font-sans text-slate-700 font-semibold justify-center">
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">Slim-TPCA</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">Mito-TPCA</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">STASIS</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">BioFusionDTI</span>
+                    </div>
+                </div>
+
+                <!-- NEW VENTURE -->
+                <div class="bg-white border border-slate-200 p-8 rounded-2xl relative overflow-hidden group hover:border-brand-highlight/50 transition duration-300 shadow-sm text-center card-hover">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-100/30 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+                    <span class="text-sm md:text-base font-bold px-3.5 py-1.5 rounded-full bg-emerald-100 text-brand-highlight font-sans tracking-wide">NEW VENTURE</span>
+                    <h3 class="text-2xl font-extrabold text-brand-navy mt-4 mb-3 font-sans">Chemical Matchmaking</h3>
+                    <p class="text-base text-slate-700 leading-relaxed mb-6">
+                        Armed with complete social registers and native recruitment handles discovered in the Mapping Stage, we now focus on synthetic biology proximity. We build multi-functional chemical chimeras to forcefully bring specific citizens together, editing post-translational modifications, and rewiring disease networks.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-sans text-slate-700 font-semibold justify-center">
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">PROTACs</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">LYTACs/ATACs</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">PhosTACs</span>
+                        <span class="bg-slate-100 px-3 py-1.5 rounded border border-slate-200">Molecular Sieves</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WHY THE PROGRESSION -->
+            <div class="max-w-5xl mx-auto bg-gradient-to-r from-emerald-50/80 to-teal-50/80 border border-emerald-200 rounded-2xl p-6 md:p-8 space-y-4 shadow-sm">
+                <h4 class="text-base md:text-lg font-bold uppercase tracking-wider text-brand-highlight font-sans flex items-center justify-center">
+                    <span class="mr-2">🔗</span> Why the Progression
+                </h4>
+                <p class="text-sm md:text-base text-slate-800 leading-relaxed font-sans text-center">
+                    Crucially, the dynamic interactions of proteins—both among themselves and with ligands—mapped comprehensively in the Mapping Stage is only the beginning: our ultimate aspiration is to intervene in biological processes and disease progression. This is precisely why the comprehensive interactome maps, native ligand repertoires, and mechanistic insights accumulated over years of MOA studies form the essential pilot and foundational data arsenal for our new direction. They provide the exact structural coordinates, native binding configurations, and tag-free recruitment handles that serve as the essential guide and foundational building blocks for generating proximity-inducing chimeras in the Tinkering Stage. By fully resolving the cellular metropolis's baseline connectivity, we gain an unparalleled strategic advantage: the ability to construct precision chemical matchmakers that can strategically manipulate, reprogram, or completely rewire disease-driving biology. We now stand at the threshold of a new phase—transitioning from mapping and understanding to actively tinkering with the cellular metropolis.
+                </p>
+            </div>
+
+            <!-- 3-STEP PIPELINE -->
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-8 md:p-12 space-y-10 max-w-5xl mx-auto shadow-sm">
+                <div class="max-w-2xl mx-auto text-center space-y-2">
+                    <span class="text-sm uppercase tracking-widest text-brand-accent font-bold font-sans">The Laboratory Discovery Pipeline</span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans">Our Strategy &amp; Strengths</h3>
+                    <p class="text-sm md:text-base text-slate-600 font-medium">A clear, sequential look at how our technologies collaborate to deliver molecular medicine.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 relative">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 relative z-10 card-hover">
+                        <h5 class="font-bold text-brand-accent text-lg font-sans"><span class="text-brand-navy">STEP 1:</span> Deep Mapping</h5>
+                        <p class="text-sm md:text-base text-slate-600 leading-relaxed font-sans">
+                            We use advanced thermal and proximity aggregation proteomics (Slim-TPCA, Mito-TPCA, MAPS-iTSA) to physically map protein assemblies and chemical ligands that could serve as recruitment handles.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 relative z-10 card-hover">
+                        <h5 class="font-bold text-brand-purple text-lg font-sans"><span class="text-brand-navy">STEP 2:</span> Simulate &amp; Scale</h5>
+                        <p class="text-sm md:text-base text-slate-600 leading-relaxed font-sans">
+                            Our customized AI models (BioFusionDTI &amp; TPCA-LLM) ingest native structural, perturbation and interaction maps with sequence profiles to predict intervention points and corresponding target-ligand interactions.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 relative z-10 card-hover">
+                        <h5 class="font-bold text-brand-highlight text-lg font-sans"><span class="text-brand-navy">STEP 3:</span> Active Proximity</h5>
+                        <p class="text-sm md:text-base text-slate-600 leading-relaxed font-sans">
+                            We link target disease proteins to native cellular machinery using our Mapping Stage recruitment handles, creating chemical chimeras that act as matchmakers to degrade, edit, or relocate them.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACT 3: ARSENAL -->
+        <section id="arsenal" class="section-spacing space-y-16">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">ACT 3</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">Arsenal</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">Platforms</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-2xl md:text-4xl font-black text-brand-navy font-sans">Our Established Mapping Platforms</h2>
+                <p class="text-slate-600 leading-relaxed text-base md:text-xl font-sans font-medium">
+                    To strategically intervene in the cell, we first built next-generation biophysical and machine learning tools to profile targets and map macromolecular complex dynamics without chemical modifications. <span class="text-brand-accent font-semibold">As the inventors of Thermal Proximity Co-Aggregation (TPCA)<a href="#pub-tan2018" class="text-brand-accent hover:underline ml-1">[1]</a>—a system-wide approach based on CETSA-MS or TPP to profile protein complexes in intact cells—our laboratory has focused on continually improvising and deploying TPP and TPCA to dissect the target-binding and downstream mechanisms of bioactive compounds.</span>
+                </p>
+            </div>
+
+            <!-- Protein Biophysics & Chemo-Proteomics Toolkits -->
+            <div class="space-y-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans border-b border-slate-200 pb-3">
+                        🔬 Protein Biophysics &amp; Chemo-Proteomics Toolkits
+                    </h3>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                    
+                    <!-- MAPS-iTSA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-blue-100 text-brand-accent font-sans uppercase tracking-wide">High-Throughput Target &amp; Ligand Profiling</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">MAPS-iTSA Permutation Profiling</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            Applies genetic binary sensing matrices to pool multiple compounds in optimized permutations. Deconvolutes thousands of target binders simultaneously via non-negative LASSO regression.
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Completely bypasses single-compound throughput limits, maximizing mass spectrometer instrument utilization and resolving hundreds of hits in record time.
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            Ref: Ji et al., Cell Chem Biol 2023 <a href="#pub-ji2023" class="text-brand-accent hover:underline ml-1">[2]</a>
+                        </span>
+                    </div>
+
+                    <!-- STASIS -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-brand-highlight font-sans uppercase tracking-wide">Microscale &amp; Clinical Sample Profiling</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">STASIS</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            Scales thermal profiling requirements down from 100 µg to as little as <strong>1 µg</strong> of protein. Integrates single-tube zero-transfer thermal heating and functionalized spintip digestion (SISPROT).
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Protects minute patient samples and rare primary cells from peptide loss during transfer, enabling target deconvolution directly in clinical biopsies.
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            Ref: Lu et al., Anal Chem 2023 <a href="#pub-lu2023" class="text-brand-accent hover:underline ml-1">[3]</a>
+                        </span>
+                    </div>
+
+                    <!-- SIP-TPP -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-brand-highlight font-sans uppercase tracking-wide">Label-Free Proteomics</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">SIP-TPP</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            Introduces an unheated "spike-in proteome" (SIP) to rescue thermally denatured and depleted proteins during label-free Data-Independent Acquisition (DIA).
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Boosts analytical peptide coverage by <strong>17.6%</strong> and detects <strong>30% more proteins</strong> under label-free DIA quantitation, preventing data gaps.
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            Ref: Wang et al., Anal Chem 2024 <a href="#pub-wang2024" class="text-brand-accent hover:underline ml-1">[4]</a>
+                        </span>
+                    </div>
+
+                    <!-- Slim-TPCA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-purple-100 text-brand-purple font-sans uppercase tracking-wide">Spatial &amp; Complex Assembly Monitoring</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">Slim-TPCA</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            Condenses traditional 10-temperature melting profiles down to 3 or 4 optimized points. Replaces bootstrap simulations with Beta distribution modeling.
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Boosts experimental throughput over <strong>3-fold</strong>, eliminates batch effects, and achieves an incredible <strong>100-fold computational acceleration</strong>.
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            Ref: Sun et al., Nat Commun 2023 <a href="#pub-sun2023" class="text-brand-accent hover:underline ml-1">[5]</a>
+                        </span>
+                    </div>
+
+                    <!-- Mito-TPCA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-purple-100 text-brand-purple font-sans uppercase tracking-wide">Organelle-Specific Dynamics</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">Mito-TPCA</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            Combines localized proximity-labeling enzymes with thermal co-aggregation to map organelle-specific protein-protein interactions directly in living cells.
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Captures spatial complex dynamics inside organelles, resolving mitochondrial subcomplex disassembly during cellular events like autophagy.
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            Ref: Zhang et al., Cell Comm Sign 2026 <a href="#pub-zhang2026" class="text-brand-accent hover:underline ml-1">[6]</a>
+                        </span>
+                    </div>
+
+                    <!-- RAPID-OPA -->
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4 text-base md:text-lg card-hover">
+                        <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-amber-100 text-brand-amber font-sans uppercase tracking-wide">Tag-Free Structural Conformational Mapping</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">RAPID-OPA</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed mt-1">
+                            Utilizes *ortho*-phthalaldehyde (OPA) reaction kinetics and "inverse detection" of tryptic peptide depletion to paint exposed lysine residues inside intact cells.
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Resolves exact pocket binding residues and drug-induced structural remodeling directly within intact cells, without requiring engineered tags.
+                        </div>
+                        <span class="block text-sm md:text-base font-sans text-slate-600 font-semibold uppercase">
+                            Ref: Zheng et al., Chem Sci 2024 <a href="#pub-zheng2024" class="text-brand-accent hover:underline ml-1">[7]</a>
+                        </span>
+                    </div>
+
+                </div>
+
+                <!-- Unlocking the Dark Proteome -->
+                <div class="space-y-8 mt-16 pt-8 border-t border-slate-200 max-w-5xl mx-auto">
+                    <div class="max-w-2xl mx-auto text-center">
+                        <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans border-b border-slate-200 pb-3">
+                            🔒 Unlocking the Dark Proteome
+                        </h3>
+                        <p class="text-sm md:text-base text-slate-600 font-medium mt-3">Discovering previously hidden cellular players to construct novel molecular warheads.</p>
+                    </div>
+                    
+                    <div class="bg-slate-50 border border-slate-200 p-8 md:p-12 rounded-3xl shadow-sm">
+                        <div class="bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col md:flex-row items-center gap-8 card-hover">
+                            <div class="text-4xl p-5 bg-purple-50 rounded-full text-brand-purple shadow-sm">🔒</div>
+                            <div class="space-y-4">
+                                <h4 class="text-xl font-bold text-brand-navy font-sans">Molecular Sieve Discovery Core</h4>
+                                <p class="text-base text-slate-600 leading-relaxed font-sans">
+                                    Standard drug discovery misses hundreds of tiny proteins (the "dark citizens" of the cell). To identify these unknown players and expand our chemical toolkit, we design magnetic <strong>core-shell covalent organic frameworks (COFs)</strong> featuring uniform 2.72 nm pore grids.
+                                </p>
+                                <p class="text-base text-slate-600 leading-relaxed font-sans">
+                                    These advanced physical sieves combine size exclusion with acid precipitation to selectively enrich and identify short open reading frame (sORF)-encoded microproteins. We successfully identified <strong>195 unique microproteins</strong> during dynamic cell death events, adding entirely new targets and recruitment coordinates to our chemical matchmaking library.
+                                </p>
+                                <span class="block text-sm font-sans text-slate-600 font-semibold uppercase mt-2">Ref: Li et al., Anal Chem 2026 / Zhang et al., APSB 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI & Contextual Network-Mining -->
+            <div class="space-y-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans border-b border-slate-200 pb-3">
+                        💻 AI &amp; Contextual Network-Mining
+                    </h3>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover space-y-3 shadow-sm text-base md:text-lg">
+                        <div class="mb-1"><span class="text-xs md:text-sm font-bold px-3 py-1 rounded-full bg-blue-100 text-brand-accent font-sans uppercase">CPI Virtual Screening</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">BioFusionDTI</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+                            A multimodal deep learning architecture that fuses drug GCN graphs with ESM-2 protein sequence embeddings via a Bilinear Attention Network (BAN).
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Eliminates "cold-start" prediction blockades and outputs clear, single-residue binding resolution maps.
+                        </div>
+                        <span class="block text-base md:text-lg font-sans text-slate-600 font-semibold uppercase">Ref: Chen et al., JCIM 2025</span>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover space-y-3 shadow-sm text-base md:text-lg">
+                        <div class="mb-1"><span class="text-xs md:text-sm font-bold px-3 py-1 rounded-full bg-purple-100 text-brand-purple font-sans uppercase">Complex Dynamics</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">Perturbed TPCA-LLM</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+                            A specialized Graph Transformer pairing sequence profiles with dynamic physical co-behavior matrices from Slim-TPCA and Mito-TPCA runs.
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Predicts transient, low-affinity, or highly context-specific macromolecular interface remodeling.
+                        </div>
+                        <span class="block text-base md:text-lg font-sans text-slate-600 font-semibold uppercase">Model: In-house LLM</span>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover space-y-3 shadow-sm text-base md:text-lg">
+                        <div class="mb-1"><span class="text-xs md:text-sm font-bold px-3 py-1 rounded-full bg-emerald-100 text-brand-highlight font-sans uppercase">Network Mining</span></div>
+                        <h4 class="text-xl md:text-2xl font-bold text-brand-navy font-sans">Contextual Network-Mining</h4>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+                            Exploits public and in-house experimental perturbation datasets (CRISPR/Drug sensitivity) to filter biological noise and map cell-specific assemblies.
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-lg text-sm md:text-base text-slate-700 leading-relaxed border border-slate-100">
+                            <strong class="text-brand-navy">Advantages &amp; Impact:</strong> Identifies contextual essential genes and dynamic relationships, providing the exact coordinates of cellular network rewiring.
+                        </div>
+                        <span class="block text-base md:text-lg font-sans text-slate-600 font-semibold uppercase">Ref: Zeng et al., Knowl-Based Syst 2026</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ACT 4: THE NEXT PHASE -->
+        <section id="tinkering-direction" class="section-spacing space-y-16">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">ACT 4</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">The Next Phase</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">Tinkering</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-2xl md:text-4xl font-extrabold text-brand-navy font-sans">New Endeavours</h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-lg font-sans">
+                    By leveraging physical target engagement maps and native, derivatization-free ligands developed in the Mapping Stage as modular "recruitment handles," we design multifunctional chemical chimeras. These act as molecular matchmakers to force key players in this cellular metropolis to gather and crystallize specific therapeutic outcomes.
+                </p>
+            </div>
+
+            <!-- The Proximity Chimera Toolkit -->
+            <div class="space-y-8 max-w-5xl mx-auto">
+                <div class="max-w-2xl mx-auto text-center space-y-2">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-brand-navy font-sans">The Proximity Chimera Toolkit</h3>
+                    <p class="text-sm md:text-base text-slate-600 font-medium">Using Mapping Stage interaction networks as guides and native ligands as physical building blocks to engineer chemical matchmakers.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-red-50 rounded-xl text-red-600 self-start shadow-sm">🗑️</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">PROTAC Degraders</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">Chemically tethers a disease-causing target protein directly to native E3 ubiquitin ligases (CRBN, VHL), triggering selective, proteasome-mediated demolition.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-emerald-50 rounded-xl text-brand-highlight self-start shadow-sm">🧹</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">LYTACs, ATACs &amp; AUTACs</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">Recruits extracellular receptors or lysosomal/autophagic machinery to sweep large pathogenic aggregates or entire dysfunctional organelle neighborhoods (e.g. damaged mitochondria) out of the city.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-purple-50 rounded-xl text-brand-purple self-start shadow-sm">✒️</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">PhosTAC &amp; KineTAC Editors</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">Tethers kinases or phosphatases directly to non-native substrates to dynamically edit post-translational modifications (PTMs), bypassing upstream signal blockades.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 flex space-x-4 hover:border-brand-highlight/40 transition-all duration-300 shadow-sm card-hover">
+                        <span class="text-3xl p-4 bg-blue-50 rounded-xl text-brand-accent self-start shadow-sm">🔒</span>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-brand-navy text-lg font-sans uppercase">DUBTAC Stabilizers</h4>
+                            <p class="text-base text-slate-600 leading-relaxed">Tethers specific targets directly to deubiquitinases (such as OTUB1) to rescue essential protective enzymes from premature degradation and maintain homeostasis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STRATEGIC COLLABORATION CALL FOR CHIMERAS -->
+            <div id="partner" class="bg-emerald-50 border border-emerald-200 rounded-3xl p-8 md:p-12 max-w-5xl mx-auto space-y-6 text-center shadow-xs mt-16">
+                <span class="text-sm uppercase tracking-widest text-brand-highlight font-extrabold font-sans">Strategic Partnering Call</span>
+                <h3 class="text-2xl md:text-4xl font-black text-brand-navy font-sans">Collaborate on Proximity Biology &amp; Proximity Chimeras</h3>
+                <p class="text-base md:text-lg text-slate-700 leading-relaxed max-w-3xl mx-auto font-sans font-medium">
+                    Our laboratory is actively seeking <strong>strategic biopharmaceutical and academic collaborators, particularly in the next phase of our journey to develop next-generation chemical chimeras</strong>. By combining our robust Mapping Stage experimental-computational interactome maps and derivatization-free native ligands as physical building blocks, we invite partnerships to engineer and optimize proximity-inducing agents (such as PROTACs, LYTACs, ATACs, PhosTACs, and DUBTACs) to systematically tinker with, reprogram, or rewire disease-driving biology for diverse clinical and therapeutic purposes.
+                </p>
+                <div class="pt-4">
+                    <a href="#footer" class="inline-block bg-brand-highlight hover:bg-emerald-800 text-white font-bold px-8 py-3.5 rounded-full transition shadow-md font-sans">
+                        Partner With Our Lab
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACT 5: COLLABORATIVE APPLICATIONS SHOWCASE -->
+        <section id="collaborations" class="section-spacing space-y-12">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-accent bg-blue-50 px-3 py-1 rounded-full">ACT 5</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple bg-purple-50 px-3 py-1 rounded-full">Collaborations</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-highlight bg-emerald-50 px-3 py-1 rounded-full">Translational</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-2xl md:text-4xl font-extrabold text-brand-navy font-sans">Collaborative Biological Discoveries</h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base font-sans">
+                    By partnering with leading clinical and biological teams worldwide, we apply our next-generation chemoproteomic mapping and predictive platforms to deconvolve disease mechanisms and resolve real-world biological challenges. <strong>We welcome strategic collaborators in particular on the next phase of our journey.</strong>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-highlight/10 text-brand-highlight rounded-full uppercase tracking-wider font-sans">🌱 Natural Products</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">Targeting Psoriasis via ACLY Metabolic Reprogramming <sup class="text-brand-highlight font-extrabold font-sans text-xs md:text-sm">[10]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        Applying the <strong>MAPS-iTSA</strong> platform to screen a panel of 50 structurally diverse natural products identified that <strong>Demethylzeylasteral</strong> (derived from the medicinal herb <em>Tripterygium wilfordii</em>) directly binds and inhibits <strong>ATP-citrate lyase (ACLY)</strong>. This target engagement halts lipid metabolic reprogramming in keratinocytes, successfully alleviating skin inflammation in imiquimod (IMQ)-induced psoriasiform mouse models.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-accent/10 text-brand-accent rounded-full uppercase tracking-wider font-sans">🔬 Mechanistic Pathways</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">Veratramine Autophagy Flux Blockade <sup class="text-brand-accent font-extrabold font-sans text-xs md:text-sm">[6]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        Integrated TPP-TPCA profiling revealed that the plant natural product <strong>veratramine (VAM)</strong> targets the <strong>ATP6V1C1</strong> subunit of vacuolar-type ATPase (V-ATPase). This binding drives the dissociation of the proton pump, disabling lysosomal acidification and shutting down autophagic survival mechanisms to suppress pancreatic cancer progression.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-purple/10 text-brand-purple rounded-full uppercase tracking-wider font-sans">🧬 Fluorescence Imaging</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">Deconvoluting Liver Cancer Probes hLR and cLG <sup class="text-brand-purple font-extrabold font-sans text-xs md:text-sm">[8]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        By deconvoluting the precise cellular targets of liver-cancer-specific fluorescent probes (identifying direct membrane targets <strong>SMPD1</strong> and <strong>SLC27A2</strong>), we provided the deep biophysical validation necessary to support real-world, fluorescence-guided clinical tumor resections.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-brand-amber/10 text-brand-amber rounded-full uppercase tracking-wider font-sans">🔋 Mitochondrial Metabolism</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">Elesclomol Dissociation of the PDKs-PDH Complex <sup class="text-brand-amber font-extrabold font-sans text-xs md:text-sm">[9]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        Using organelle-specific <strong>Mito-TPCA</strong>, we revealed that the copper ionophore drug <strong>elesclomol</strong> selectively induces iron- and copper-dependent cuproptosis by physically disrupting the binding of pyruvate dehydrogenase kinases (PDKs) to the PDH complex in mitochondria, driving selective tumor death.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 hover:shadow-md transition-all duration-300 md:col-span-2 shadow-sm card-hover">
+                    <span class="text-xs md:text-sm font-semibold px-3 py-1.5 bg-red-100 text-red-700 rounded-full uppercase tracking-wider font-sans">🦠 Pathogen Metabolites</span>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy font-sans">PQS Bacterial Metabolite Hijacks CNMT driving Severe Macrophage Ferroptosis <sup class="text-red-600 font-extrabold font-sans text-xs md:text-sm">[7]</sup></h4>
+                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+                        We discovered that the <em>Pseudomonas aeruginosa</em> quorum-sensing metabolite <strong>PQS</strong> directly targets the host methyltransferase <strong>CNMT</strong>, hyperactivating the histidine methylation of transferrin receptor-1 (TFR1). This molecular hijack results in severe macrophage iron overload and ferroptosis during severe respiratory infections.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACT 6: PUBLICATIONS -->
+        <section id="publications" class="section-spacing space-y-12">
+            <div class="flex items-center gap-3 mb-2 justify-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1 rounded-full">ACT 6</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-navy bg-slate-200 px-3 py-1 rounded-full">Bibliography</span>
+                <span class="h-px flex-1 max-w-20 bg-slate-200"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1 rounded-full">Publications</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-3xl md:text-5xl font-extrabold text-brand-navy font-sans">Peer-Reviewed Bibliography</h2>
+                <p class="text-slate-600 leading-relaxed text-sm md:text-base font-sans">
+                    A curated selection of our laboratory's pioneering publications, forming the physical and computational foundation of our target discovery and proximity engineering engines.
+                </p>
+            </div>
+
+            <div class="space-y-6 max-w-4xl mx-auto">
+                <!-- Tan 2018 -->
+                <div id="pub-tan2018" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent uppercase tracking-wider font-sans">[1] TPCA (Thermal Proximity Co-Aggregation)</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Thermal proximity coaggregation for system-wide profiling of protein complex dynamics in cells</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Tan, C. S. H., Go, K. D., Bisteau, X., Dai, L., Yong, C. H., Prabhu, N., Ozturk, M. B., Lim, Y. T., Sreekumar, L., Lengqvist, J., Tergaonkar, V., Kaldis, P., Sobota, R. M., &amp; Nordlund, P. (2018). <strong>Science</strong>, 359(6380), 1170–1177.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Invented <strong>Thermal Proximity Co-Aggregation (TPCA)</strong>, a system-wide approach based on CETSA-MS to profile protein complexes directly in intact cells. Demonstrated that protein complexes exhibit coordinated thermal melting behavior, enabling the identification of native protein-protein interactions and complex dynamics under physiological conditions without chemical modifications or tags.
+                    </p>
+                </div>
+
+                <!-- Lu 2023 -->
+                <div id="pub-lu2023" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent uppercase tracking-wider font-sans">[3] STASIS (Microscale Sampling)</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Scaled-Down Thermal Profiling and Coaggregation Analysis of the Proteome for Drug Target and Protein Interaction Analysis</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Lu, X., Liao, B., Sun, S., Mao, Y., Wu, Q., Tian, R., &amp; Tan, C. S. H. (2023). <strong>Analytical Chemistry</strong>, 95(37), 13844–13854.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Developed the <strong>STASIS</strong> workflow, reducing required protein input from 100 µg to <strong>1 µg</strong> per temperature point using PCR zero-transfer thermal challenge, integrated spintip Digestion (SISPROT), and microscale peptide fractionation inside functionalized spintips.
+                    </p>
+                </div>
+
+                <!-- Ji 2023 -->
+                <div id="pub-ji2023" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-highlight/10 text-brand-highlight uppercase tracking-wider font-sans">[2] MAPS (High Throughput Mappings)</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Matrix-Augmented Pooling Strategy (MAPS) for large-scale proteome-wide profiling of protein-chemical interactions with derivatization-free MS-based approaches</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Ji, H., Lu, X., Zhao, S., Wang, Q., Liao, B., Bauer, L. G., Huber, K. V. M., Luo, R., Tian, R., &amp; Tan, C. S. H. (2023). <strong>Cell Chemical Biology</strong>, 30(10), 1255–1268.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Invented the <strong>MAP-iTSA</strong> platform, boosting experimental throughput by pooling compounds in optimized matrix permutations and deconvoluting targets via non-negative LASSO regression, significantly accelerating derivatization-free hit discovery.
+                    </p>
+                </div>
+
+                <!-- Wang 2024 -->
+                <div id="pub-wang2024" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-highlight/10 text-brand-highlight uppercase tracking-wider font-sans">[4] SIP-TPP (Label-Free Proteomics)</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Spike-In Proteome Enhances Data-Independent Acquisition for Thermal Proteome Profiling</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Wang, Q., Chen, Q., Lin, Y., He, D., Ji, H., &amp; Tan, C. S. H. (2024). <strong>Analytical Chemistry</strong>, 96(49), 19695–19705.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Introduced the <strong>SIP(Spike-in Proteome)-TPP</strong> strategy for DIA-TPP, adding a non-heated proteome to prevent thermal denaturation depletion, boosting proteome coverage by <strong>17.6%</strong> and detecting <strong>30% more proteins</strong> under label-free DIA quantitation.
+                    </p>
+                </div>
+
+                <!-- Sun 2023 -->
+                <div id="pub-sun2023" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-purple/10 text-brand-purple uppercase tracking-wider font-sans">[5] Slim-TPCA</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Improved in situ characterization of protein complex dynamics at scale with thermal proximity co-aggregation</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Sun, S., Zheng, Z., Wang, J., Li, F., He, A., opacity, K., Zhang, S., Lu, J. H., Tian, R., &amp; Tan, C. S. H. (2023). <strong>Nature Communications</strong>, 14(1), 7697.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Developed the <strong>Slim-TPCA</strong> protocol, condensing 10-temperature melting curves down to <strong>3 or 4 optimized temperatures</strong> to boost throughput <strong>&gt;3-fold</strong> and eliminate run-to-run batch effects. Replaced bootstrapping with <strong>Fitted Beta Distribution P-value Modeling</strong> to cut computation times <strong>over 100-fold</strong>.
+                    </p>
+                </div>
+
+                <!-- Zhang 2026 -->
+                <div id="pub-zhang2026" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-purple/10 text-brand-purple uppercase tracking-wider font-sans">[6] Protein Complex Dynamics</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">In situ profiling of protein complexes during autophagy and mitophagy using thermal proximity co-aggregation</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Zhang, S., Zeng, Y., Li, F., Liao, B., Wang, J., Lu, J., &amp; Tan, C. S. H. (2026). <strong>Cell Communication and Signaling</strong>, 24, 315.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Deployed Slim-TPCA en masse to profile time-resolved cellular interactome remodeling during chemically-induced autophagy (Torin 1) and mitophagy (CCCP), identifying discrete signaling initiation hubs and quality-control networks.
+                    </p>
+                </div>
+
+                <!-- Zhang 2025 -->
+                <div id="pub-zhang2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-glow/10 text-brand-accent uppercase tracking-wider font-sans">[6] ATP6V1C1 Target</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy mt-2 mb-1 leading-snug font-sans">Integrated thermal proteome and thermal proximity co-aggregation profiling identifies ATP6V1C1 as a novel anti-cancer drug target</h4>
+                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Zhang, S., Li, F. M., Wang, J., Dong, Y., Luo, J. F., Huang, X. F., Li, Y., Zhu, G. Y., Qi, S. Q., Shen, H. M., Zhong, Q., Ming, C., Zeng, K. W., Yao, X. J., Tan, C. S. H., &amp; Lu, J. H. (2025). <strong>International Journal of Biological Sciences</strong>, 21(7), 3197–3213.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Combined TPP and TPCA (including <strong>mito-TPCA</strong> organelle-specific mapping of respiratory and ribosomal complexes) under metabolic stress to deconvolve drug target mechanisms, successfully identifying the vacuolar ATPase subunit <strong>ATP6V1C1</strong> as a target for anti-cancer therapeutics.
+                    </p>
+                </div>
+
+                <!-- Jia 2025 -->
+                <div id="pub-jia2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-red-100 text-red-700 uppercase tracking-wide font-sans">[7] Host-Pathogen Ferroptosis</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">A Pseudomonas aeruginosa quorum-sensing metabolite manipulates macrophage ferroptosis through a methylation pathway</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Jia, T., Li, F., Li, T., Ren, A., Lu, P., Liu, Y., Zhou, Y., Duan, X., Liu, Y., Zhong, L., Zhang, Z., Tan, C. S. H., &amp; Yang, L. (2025). <strong>Nature Communications</strong>, 16, 65142. doi:10.1038/s41467-025-65142-y.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Identified host methyltransferase <strong>CNMT</strong> as the direct intracellular receptor of bacterial QS metabolite <strong>PQS</strong>. Binding of PQS enhances CNMT His MTase activity, catalyzing methylation of <strong>TFR1</strong> at <strong>His35</strong> to upregulate protein expression, driving macrophage iron overload and lipid peroxidation cascades during severe lung infections.
+                    </p>
+                </div>
+
+                <!-- Gao 2025 -->
+                <div id="pub-gao2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-purple-100 text-brand-purple uppercase tracking-wide font-sans">[8] Complementary Tumor Imaging</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">A Pair of Fluorescent Probes Enabling Precise Diagnosis of Liver Cancer by Complementary Imaging</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Gao, M., Lee, S. H., Kwon, H.-Y., Ciaramicoli, L. M., Jo, E., Yu, Y. H., Li, F., Kim, B., Hong, K., Lee, J.-S., Kim, N., Oh, Y., Im, C. Y., Tan, C. S. H., Ha, H.-H., &amp; Chang, Y.-T. (2025). <strong>ACS Central Science</strong>, 11(1), 76–83. doi:10.1021/acscentsci.4c01822.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Developed cLG (cancerous Liver Green) and hLR (healthy Liver Red) probes for complementary boundary imaging of hepatocellular carcinoma. Identified fatty acid transporter <strong>SLC27A2 (FATP2)</strong> as the gating importer of cLG via CRISPRa activation screen, and mapped <strong>SMPD1</strong> as hLR's membrane target via thermal proteome profiling (TPP).
+                    </p>
+                </div>
+
+                <!-- Huang 2025 -->
+                <div id="pub-huang2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-amber-100 text-brand-amber uppercase tracking-wide font-sans">[9] Suborganelle Complex Dynamics</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">Mitochondrial thermal proteome profiling reveals aberrant activation of pyruvate dehydrogenase upon cuproptosis</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Huang, Z., Liu, Y., Zeng, Y., Wang, J., Sun, S., Tan, C. S. H., &amp; Chen, P. R. (2025). <strong>Cell Reports</strong>, 44(7), 115937. doi:10.1016/j.celrep.2025.115937.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Developed <strong>Mito-TPCA</strong> (mitochondrial matrix co-aggregation analysis), revealing that copper transported by <strong>elesclomol</strong> binds lipoyl domains to disrupt the physical association of pyruvate dehydrogenase kinases (<strong>PDKs</strong>) with the <strong>PDH</strong> complex, triggering PDHA1 dephosphorylation and hyperactivation as a key driver of cuproptosis.
+                    </p>
+                </div>
+
+                <!-- Wang 2025 -->
+                <div id="pub-wang2025" class="bg-white border border-slate-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300 card-hover shadow-sm">
+                    <div class="mb-2"><span class="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-brand-highlight uppercase tracking-wide font-sans">[10] AI-Chemoproteomic Deconvolution</span></div>
+                    <h4 class="text-lg md:text-xl font-bold text-brand-navy leading-snug font-sans">Thermal Proteomics and AI-assisted Target Deconvolution Identify ACLY as a Direct Target of Demethylzeylasteral in Psoriasis</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed font-serif italic mt-1">
+                        Wang, Q., Yu, N., Song, Y., Fan, X., Tian, J., Chang, S., Guo, Y., Tan, C. S. H., &amp; Ji, H. (2025). <em>Manuscript under review</em>.
+                    </p>
+                    <p class="text-sm md:text-base text-slate-600 mt-2 leading-relaxed font-sans">
+                        <em>Key Contribution:</em> Developed an integrated target discovery framework combining <strong>MAPS-iTSA</strong> biophysical screening with structure-aware <strong>HoloGNN</strong> Graph Neural Networks to identify <strong>ACLY</strong> as the direct functional receptor of medicinal triterpenoid <strong>Demethylzeylasteral</strong> (with low-micromolar affinity). Proved that inhibiting ACLY reverses lipogenic SREBP-dependent reprogramming in keratinocytes to resolve psoriasiform dermatitis.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="bg-slate-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+                <span class="text-2xl md:text-3xl font-normal text-white font-sans">
+                    <span class="text-sm font-semibold text-white uppercase tracking-widest">AN</span>
+                    <span class="text-lg md:text-xl">inter</span><sup class="text-sky-500 italic text-base">n</sup><span class="text-red-700 italic text-2xl md:text-3xl">O</span><span class="text-lg md:text-xl">mics</span>
+                    <span class="text-sm font-semibold text-white uppercase tracking-widest ml-1">LAB</span>
+                </span>
+                <p class="text-sm text-slate-400 leading-relaxed max-w-sm font-sans">
+                    Southern University of Science and Technology (SUSTech), Shenzhen, China. Pioneering biophysical and AI-driven platforms to map and actively rewire the dynamic cellular metropolis. <strong>We welcome strategic collaborators in particular on the next phase of our journey.</strong>
+                </p>
+            </div>
+            
+            <div class="space-y-3 text-sm">
+                <h4 class="font-bold text-white uppercase tracking-wider font-sans">Contact Details</h4>
+                <p class="text-slate-400 font-sans">Department of Chemistry &amp; Research Center for Chemical Biology, SUSTech</p>
+                <p class="text-slate-400 font-sans">Email: christan@sustech.edu.cn</p>
+            </div>
+
+            <div class="space-y-3 text-sm">
+                <h4 class="font-bold text-white uppercase tracking-wider font-sans">Support &amp; Grants</h4>
+                <p class="text-slate-400 leading-relaxed font-sans">
+                    Supported by the Ministry of Science and Technology, National Natural Science Foundation of China, Shenzhen Innovation Commission, and Guangdong Engineering Technology Research Center.
+                </p>
+            </div>
+        </div>
+        <div class="text-center text-xs text-slate-500 mt-12 border-t border-slate-800 pt-6 font-sans">
+            &copy; 2026 Systems Chemical Biology and Pharmacology Lab — Dr. Chris Soon Heng Tan. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- BACKGROUND CANVAS -->
+    <script>
+        const canvas = document.getElementById("metropolisCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+        const maxParticles = 75;
+
+        const colors = [
+            "rgba(37, 99, 235, 0.35)",
+            "rgba(59, 130, 246, 0.25)",
+            "rgba(5, 150, 105, 0.3)",
+            "rgba(124, 58, 237, 0.2)",
+            "rgba(217, 119, 6, 0.15)"
+        ];
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 4 + 2.5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+
+            update() {
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                this.x += this.vx;
+                this.y += this.vy;
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function drawLinks() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(148, 163, 184, ${0.1 * (1 - dist / 110)})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = "rgba(148, 163, 184, 0.04)";
+            ctx.lineWidth = 1;
+            const gridStep = 80;
+            for (let x = 0; x < canvas.width; x += gridStep) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += gridStep) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            drawLinks();
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
